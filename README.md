@@ -28,4 +28,5 @@ mtrack --version
 
 ## TODO
 
+- Report!
 - Display icon in systray

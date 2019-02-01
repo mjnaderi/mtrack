@@ -17,7 +17,7 @@ setup(
     url='https://github.com/mjnaderi/mtrack',
     packages=find_packages(),
     include_package_data=True,
-    scripts=['mtrack/mtrack'],
+    scripts=['mtr'],
     install_requires=[
         'sh', 'pony', 'pytz', 'tzlocal'
     ],

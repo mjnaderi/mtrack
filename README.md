@@ -1,6 +1,6 @@
 *mtrack* is a my simple time tracking tool.
 
-# Installation
+## Installation
 
 For installing or updating, run the following commands:
 
@@ -10,11 +10,15 @@ cd mtrack
 sudo pip3 install . 
 ```
 
-# Usage
+## Usage
 
+To start timer:
 
+```
+$ mtr PROJECT_NAME
+```
 
-## Version
+Press `Ctrl+C` to stop timer.
 
 For printing current installed version:
 

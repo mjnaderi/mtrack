@@ -31,7 +31,7 @@ class TimeEntry(db.Entity):
 
     @classmethod
     @orm.db_session
-    def stop_timer(cls, interval_id, dt):
+    def save_finish_time(cls, interval_id, dt):
         interval = cls[interval_id]
         interval.finish = dt
         return interval

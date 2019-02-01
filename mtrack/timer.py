@@ -21,9 +21,8 @@ class MTrackTimer:
         time_entry = TimeEntry.start_timer(self.project.id)
 
         def signal_handler(sig, frame):
-            print('Good Bye!')
-            TimeEntry.stop_timer(time_entry.id, now())
-            sys.exit(0)
+            TimeEntry.save_finish_time(time_entry.id, now())
+            self.exit()
 
         signal.signal(signal.SIGINT, signal_handler)
 
@@ -37,16 +36,16 @@ class MTrackTimer:
             elif idle_time < 20:
                 if idle:
                     selection = self.ask_idle(last_activity)
+                    # print('you were idle')
                     if selection == 1:
-                        TimeEntry.stop_timer(time_entry.id, last_activity)
+                        TimeEntry.save_finish_time(time_entry.id, last_activity)
                         time_entry = TimeEntry.start_timer(self.project.id)
                     elif selection == 2:
-                        TimeEntry.stop_timer(time_entry.id, last_activity)
-                        sys.exit(0)
-                    print('you were idle')
+                        TimeEntry.save_finish_time(time_entry.id, last_activity)
+                        self.exit()
                     idle = False
                 last_activity = now()
-                TimeEntry.stop_timer(time_entry.id, last_activity)
+                TimeEntry.save_finish_time(time_entry.id, last_activity)
             time.sleep(2)
 
     # noinspection PyUnresolvedReferences
@@ -68,3 +67,8 @@ class MTrackTimer:
             except (sh.ErrorReturnCode_1, ValueError):
                 selection = None
         return selection
+
+    @staticmethod
+    def exit():
+        print('Good Bye!')
+        sys.exit(0)

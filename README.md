@@ -21,3 +21,7 @@ For printing current installed version:
 ```bash
 mtrack --version
 ```
+
+## TODO
+
+- Display icon in systray

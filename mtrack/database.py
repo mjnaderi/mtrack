@@ -10,7 +10,7 @@ db = orm.Database()
 def init_db():
     data_dir = os.path.expanduser('~/.mtrack')
     if not os.path.exists(data_dir):
-        logging.info('Data dir not found. Creating %s', data_dir)
+        logging.info('Data directory not found. Creating %s', data_dir)
         os.mkdir(data_dir)
     db_file = os.path.join(data_dir, 'db.sqlite')
 

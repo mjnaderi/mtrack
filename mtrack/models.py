@@ -15,7 +15,7 @@ class Project(db.Entity, GetOrCreateMixin):
     def get_or_create_project(cls, project_name):
         project, created = cls.get_or_create(name=project_name)
         if created:
-            print(f'Created project {project_name}')
+            print('Created project %s' % project_name)
         return project
 
 

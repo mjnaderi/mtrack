@@ -1,17 +1,16 @@
-import sys
-
 import signal
+import sys
 import time
+
 import sh
 
 from mtrack.database import init_db
 from mtrack.models import Project, TimeEntry
-from mtrack.utils import now, get_idle_time
-from tzlocal import get_localzone
+from mtrack.utils import now, get_idle_time, format_datetime, format_duration
 
 
 class MTrackTimer:
-    IDLE_THRESHOLD = 5  # 5 minutes
+    IDLE_THRESHOLD = 5 * 60  # 5 minutes
 
     def __init__(self, project_name):
         init_db()
@@ -55,12 +54,14 @@ class MTrackTimer:
         selection = None
         while selection is None:
             idle_duration = now() - last_activity
-            text = 'Project <b>{}</b>\nYou were idle for {} (since {})'.format(
-                self.project_name, idle_duration, last_activity
+            text = 'You were idle for <b>{}</b> (since {})\nProject: <b>{}</b>'.format(
+                format_duration(idle_duration),
+                format_datetime(last_activity),
+                self.project_name,
             )
             try:
-                selection = int(sh.zenity('--list', '--title=You were idle', '--text=%s' % text,
-                                          '--column=#', '--column=Choice',
+                selection = int(sh.zenity('--height=220', '--list', '--title=MTrack: You were idle', '--text=%s' % text,
+                                          '--column=#', '--column=Select an option', '--hide-column=1',
                                           '1', 'Discard time and continue',
                                           '2', 'Discard time and stop',
                                           '3', 'Keep time').strip())

@@ -7,7 +7,7 @@ from mtrack.timer import MTrackTimer
 
 def main():
     parser = argparse.ArgumentParser(description='mtrack')
-    parser.add_argument('--version', action='version', version=f'MTrack {__version__}')
+    parser.add_argument('--version', action='version', version=f'MTrack %s' % __version__)
     parser.add_argument('project', help='project name')
     args = parser.parse_args()
 

@@ -15,6 +15,6 @@ def init_db():
     db_file = os.path.join(data_dir, 'db.sqlite')
 
     logging.info('init database')
-    import_module('mtrack.models')
+    import_module('mtrack.models')  # Discover models
     db.bind(provider='sqlite', filename=db_file, create_db=True)
     db.generate_mapping(create_tables=True)

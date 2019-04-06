@@ -8,6 +8,7 @@ from mtrack.export import export
 
 def main():
     parser = argparse.ArgumentParser(description='mtrack')
+    parser.add_argument('-v', '--version', action='version', version='MTrack %s' % __version__)
     parser.add_argument('-p', '--project', help='project name')
     parser.add_argument('-ex', '--export', help='export date')
     args = parser.parse_args()

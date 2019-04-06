@@ -1,4 +1,3 @@
-# should accept an arg like 1398 2 and return a timestamp
 from datetime import datetime, timedelta
 from pony import orm
 

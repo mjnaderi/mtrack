@@ -10,7 +10,7 @@ def main():
     parser = argparse.ArgumentParser(description='mtrack')
     parser.add_argument('-v', '--version', action='version', version='MTrack %s' % __version__)
     parser.add_argument('-p', '--project', help='project name')
-    parser.add_argument('-ex', '--export', help='export date')
+    parser.add_argument('-ex', '--export', help='export date (1398-1)')
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO)

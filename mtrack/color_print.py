@@ -1,3 +1,6 @@
+from random import choice
+
+
 class Color:
     PURPLE = '\033[95m'
     CYAN = '\033[96m'
@@ -9,6 +12,10 @@ class Color:
     BOLD = '\033[1m'
     UNDERLINE = '\033[4m'
     END = '\033[0m'
+
+    @classmethod
+    def get_random_color(cls):
+        return choice([cls.PURPLE, cls.CYAN, cls.DARKCYAN, cls.BLUE, cls.GREEN, cls.YELLOW, cls.RED])
 
 
 def cprint(*args, sep=' ', end='\n', file=None, color=None):

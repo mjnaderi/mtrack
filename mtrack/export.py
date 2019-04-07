@@ -10,7 +10,8 @@ from mtrack.color_print import Color, cprint
 def export(project_name, date):
     init_db()
     hours_table(project_name, date)
-    print(calculate_hours(project_name, date))
+    work_done = calculate_workdone(project_name, date)
+    print("{}:{}".format(work_done.days * 24 + work_done.seconds // 3600, (work_done.seconds // 60) % 60))
 
 
 @orm.db_session
@@ -30,7 +31,7 @@ def get_time_entries(project_name, date):
 
 
 @orm.db_session
-def calculate_hours(project_name, date):
+def calculate_workdone(project_name, date):
     time_entries = get_time_entries(project_name, date)
     return sum([time_entry.finish - time_entry.start for time_entry in time_entries], timedelta())
 

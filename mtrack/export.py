@@ -24,7 +24,7 @@ def get_time_entries(project_name, date):
     finish_date = datetime(*jalali_to_gregorian(jy, jm, jd))
     project = Project.get(name=project_name)
     time_entries = TimeEntry.select(
-        lambda t: t.start >= start_date and t.finish <= finish_date and t.project == project) \
+        lambda t: t.start >= start_date and t.start <= finish_date and t.project == project) \
         .order_by(lambda t: t.start)
     return time_entries
 

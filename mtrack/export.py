@@ -20,7 +20,7 @@ def get_time_entries(project_name, date):
     start_date = datetime(*jalali_to_gregorian(jy, jm, jd))
     jm += 1
     if jm == 13:
-        jm = 0
+        jm = 1 
         jy += 1
     finish_date = datetime(*jalali_to_gregorian(jy, jm, jd))
     project = Project.get(name=project_name)

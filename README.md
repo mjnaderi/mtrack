@@ -1,4 +1,4 @@
-*mtrack* is a my simple time tracking tool.
+*MTrack* is my simple time tracking tool.
 
 ## Installation
 
@@ -19,6 +19,12 @@ $ mtr PROJECT_NAME
 ```
 
 Press `Ctrl+C` to stop timer.
+
+For getting a report of a month:
+
+```
+$ mtr PROJECT_NAME --report 1398 1
+```
 
 For printing current installed version:
 

@@ -33,7 +33,7 @@ class MTrackReporter:
         print("----------------------------")
         total_time = self.total_time(time_entries)
         print(
-            "Total: {0:02d}:{0:02d}".format(
+            "Total: {:02d}:{:02d}".format(
                 total_time.days * 24 + total_time.seconds // 3600,
                 (total_time.seconds // 60) % 60
             )

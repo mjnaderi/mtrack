@@ -11,16 +11,15 @@ def main():
     parser.add_argument('-v', '--version', action='version', version='MTrack %s' % __version__)
     parser.add_argument('--report', dest='date', nargs=2, metavar=('YEAR', 'MONTH'),
                         help='report jalali month (e.g. 1398-1)')
+    parser.add_argument('-s', '--simple', action='store_true', help='simplify report representation')
     parser.add_argument('project', help='project name')
-
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO)
     logging.getLogger('sh.command').setLevel(logging.WARNING)
-
     if args.date:
         reporter = MTrackReporter(args.project, args.date)
-        reporter.report()
+        reporter.report(args.simple)
     elif args.project:
         timer = MTrackTimer(args.project)
         timer.run()

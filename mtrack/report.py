@@ -8,12 +8,16 @@ from mtrack.models import Project, TimeEntry
 
 
 class MTrackReporter:
+    JY = 0
+    JM = 0
 
     def __init__(self, project_name, date):
         init_db()
         self.project_name = project_name
         jy = int(date[0])
         jm = int(date[1])
+        MTrackReporter.JY = jy
+        MTrackReporter.JM = jm
         self.start_time = datetime(*jalali_to_gregorian(jy, jm, 1))
         jm += 1
         if jm == 13:
@@ -55,13 +59,25 @@ class MTrackReporter:
             else:
                 table[k] = entry.finish - entry.start
         if table:
-            for day, t in table.items():
-                ts = t.total_seconds()
-                y, m, d = gregorian_to_jalali(*list(map(int, day.split('-'))))
-                if not just_time:
+            if not just_time:
+                for day, t in table.items():
+                    y, m, d = gregorian_to_jalali(*list(map(int, day.split('-'))))
                     cprint("{y}-{m:02d}-{d:02d} | {time}".format(y=y, m=m, d=d, time=t), color=Color.get_random_color())
-                else:
-                    cprint("{0}:{1}:{2}".format(int(ts/3600), int((ts%3600)/60), int((ts%3600)%60)), color=Color.get_random_color())
+            else:
+                MTrackReporter.print_simple_table(table)
 
         else:
             print('No entry found...')
+
+    @staticmethod
+    def print_simple_table(table):
+        total_table = {}
+        for i in range(1, 32):
+            total_table[(MTrackReporter.JY, MTrackReporter.JM, i)] = 0
+        for day, t in table.items():
+            ts = t.total_seconds()
+            y, m, d = gregorian_to_jalali(*list(map(int, day.split('-'))))
+            total_table[(y, m, d)] += ts
+        for ts in total_table.values():
+            cprint("{0}:{1}:{2}".format(int(ts / 3600), int((ts % 3600) / 60), int((ts % 3600) % 60)),
+                   color=Color.get_random_color())

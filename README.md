@@ -1,4 +1,4 @@
-*MTrack* is my simple time tracking tool.
+*MTrack* is a simple time tracking tool that we use in our technical team in [Quera](https://quera.ir).
 
 ## Installation
 
@@ -29,10 +29,9 @@ $ mtr PROJECT_NAME --report 1398 1
 For printing current installed version:
 
 ```bash
-mtrack --version
+$ mtr --version
 ```
 
 ## TODO
 
-- Report!
 - Display icon in systray

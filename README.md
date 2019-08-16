@@ -1,4 +1,4 @@
-*MTrack* is a simple time tracking tool that we use in our technical team in [Quera](https://quera.ir).
+*MTrack* is a simple time tracking tool that we use in our engineering team in [Quera](https://quera.ir).
 
 ## Installation
 
@@ -12,7 +12,7 @@ sudo pip3 install .
 
 ## Usage
 
-To start timer:
+Start timer:
 
 ```
 $ mtr PROJECT_NAME
@@ -20,13 +20,13 @@ $ mtr PROJECT_NAME
 
 Press `Ctrl+C` to stop timer.
 
-For getting a report of a month:
+Getting report for a Jalali month:
 
 ```
 $ mtr PROJECT_NAME --report 1398 1
 ```
 
-For printing current installed version:
+Printing current installed version:
 
 ```bash
 $ mtr --version

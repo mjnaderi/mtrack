@@ -1,12 +1,11 @@
 import signal
+import subprocess
 import sys
 import time
 
-import sh
-
 from mtrack.database import init_db
 from mtrack.models import Project, TimeEntry
-from mtrack.utils import now, get_idle_time, format_datetime, format_duration
+from mtrack.utils import format_datetime, format_duration, get_idle_time, now
 
 
 class MTrackTimer:
@@ -53,22 +52,42 @@ class MTrackTimer:
         selection = None
         while selection is None:
             idle_duration = now() - last_activity
-            text = 'You were idle for <b>{}</b> (since {})\nProject: <b>{}</b>'.format(
+            text = "You were idle for <b>{}</b> (since {})\nProject: <b>{}</b>".format(
                 format_duration(idle_duration),
                 format_datetime(last_activity),
                 self.project_name,
             )
+
+            p = subprocess.run(
+                [
+                    "zenity",
+                    "--height=220",
+                    "--list",
+                    "--title=MTrack: You were idle",
+                    "--text=%s" % text,
+                    "--column=#",
+                    "--column=Select an option",
+                    "--hide-column=1",
+                    "1",
+                    "Discard time and continue",
+                    "2",
+                    "Discard time and stop",
+                    "3",
+                    "Keep time",
+                ],
+                capture_output=True,
+                text=True,
+            )
+            if p.returncode != 0:
+                selection = None
+                continue
             try:
-                selection = int(sh.zenity('--height=220', '--list', '--title=MTrack: You were idle', '--text=%s' % text,
-                                          '--column=#', '--column=Select an option', '--hide-column=1',
-                                          '1', 'Discard time and continue',
-                                          '2', 'Discard time and stop',
-                                          '3', 'Keep time').strip())
-            except (sh.ErrorReturnCode_1, ValueError):
+                selection = int(p.stdout.strip())
+            except ValueError:
                 selection = None
         return selection
 
     @staticmethod
     def exit():
-        print('Good Bye!')
+        print("Good Bye!")
         sys.exit(0)

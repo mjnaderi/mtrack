@@ -1,7 +1,7 @@
+import subprocess
 from datetime import datetime
 
 import pytz
-import sh
 from tzlocal import get_localzone
 
 
@@ -20,8 +20,28 @@ def now():
 
 
 def get_idle_time():
-    # noinspection PyUnresolvedReferences
-    return int(sh.xprintidle().strip()) / 1000  # in seconds
+    if (
+        p := subprocess.run(["xprintidle"], capture_output=True, text=True)
+    ).returncode == 0:
+        return int(p.stdout) / 1000
+
+    # https://askubuntu.com/a/1231995/123230
+    if (
+        p := subprocess.run(
+            [
+                "dbus-send",
+                "--print-reply",
+                "--dest=org.gnome.Mutter.IdleMonitor",
+                "/org/gnome/Mutter/IdleMonitor/Core",
+                "org.gnome.Mutter.IdleMonitor.GetIdletime",
+            ],
+            capture_output=True,
+            text=True,
+        )
+    ).returncode == 0:
+        return int(p.stdout.rsplit(None, 1)[-1]) / 1000
+
+    return 0
 
 
 def format_duration(duration):
@@ -31,12 +51,12 @@ def format_duration(duration):
             if b == 0:
                 continue
             if b == 1:
-                result.append('1 ' + a)
+                result.append("1 " + a)
             else:
-                result.append('%d %ss' % (b, a))
+                result.append("%d %ss" % (b, a))
             if len(result) >= 2:
                 break
-        return ', '.join(result)
+        return ", ".join(result)
 
     ss = int(duration.total_seconds())
     s = ss % 60
@@ -45,8 +65,8 @@ def format_duration(duration):
     hh = mm // 60
     h = hh % 24
     d = hh // 24
-    return _format([('day', d), ('hour', h), ('minute', m), ('second', s)])
+    return _format([("day", d), ("hour", h), ("minute", m), ("second", s)])
 
 
 def format_datetime(dt):
-    return dt.astimezone(get_localzone()).strftime('%Y-%b-%d %H:%M:%S')
+    return dt.astimezone(get_localzone()).strftime("%Y-%b-%d %H:%M:%S")

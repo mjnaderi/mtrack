@@ -1,22 +1,29 @@
 #!/usr/bin/env python3
 import argparse
 import logging
-from mtrack.version import __version__
-from mtrack.timer import MTrackTimer
+
 from mtrack.report import MTrackReporter
+from mtrack.timer import MTrackTimer
+from mtrack.version import __version__
 
 
 def main():
-    parser = argparse.ArgumentParser(description='mtrack')
-    parser.add_argument('-v', '--version', action='version', version='MTrack %s' % __version__)
-    parser.add_argument('--report', dest='date', nargs=2, metavar=('YEAR', 'MONTH'),
-                        help='report jalali month (e.g. 1398-1)')
-    parser.add_argument('project', help='project name')
+    parser = argparse.ArgumentParser(description="mtrack")
+    parser.add_argument(
+        "-v", "--version", action="version", version="MTrack %s" % __version__
+    )
+    parser.add_argument(
+        "--report",
+        dest="date",
+        nargs=2,
+        metavar=("YEAR", "MONTH"),
+        help="report jalali month (e.g. 1398-1)",
+    )
+    parser.add_argument("project", help="project name")
 
     args = parser.parse_args()
 
     logging.basicConfig(level=logging.INFO)
-    logging.getLogger('sh.command').setLevel(logging.WARNING)
 
     if args.date:
         reporter = MTrackReporter(args.project, args.date)
